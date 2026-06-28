@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cipher School - Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f6f8; }
+        .sidebar { width: 250px; background: #2c3e50; color: white; position: fixed; height: 100%; padding-top: 20px; }
+        .sidebar a { padding: 15px 25px; text-decoration: none; font-size: 18px; color: #ecf0f1; display: block; }
+        .sidebar a:hover { background: #34495e; }
+        .main { margin-left: 250px; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        h1 { color: #2c3e50; }
+        .task-list { list-style: none; padding: 0; }
+        .task-list li { background: #ecf0f1; margin: 5px 0; padding: 10px; border-left: 5px solid #3498db; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2 style="text-align: center;">Cipher School</h2>
+        <a href="#">Dashboard</a>
+        <a href="#">Assignments</a>
+        <a href="#">Schedules</a>
+        <a href="#">Resources</a>
+    </div>
+    <div class="main">
+        <h1>Welcome back, Student!</h1>
+        <div class="card">
+            <h3>Upcoming Assignments</h3>
+            <ul class="task-list">
+                <li>Data Structures Algorithm Analysis - Due: Tomorrow</li>
+                <li>Operating Systems Lab Report - Due: Friday</li>
+                <li>React Frontend UI Design - Due: Next Monday</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>Today's Schedule</h3>
+            <ul class="task-list">
+                <li style="border-left-color: #e74c3c;">10:00 AM - Machine Learning Lecture</li>
+                <li style="border-left-color: #f1c40f;">01:00 PM - Database Management Lab</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
