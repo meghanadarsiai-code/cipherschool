@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cipher School - Study Management</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f6;
+            overflow-x: hidden;
+        }
+        
+        /* Sidebar Styling */
+        .sidebar {
+            height: 100vh;
+            width: 260px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding-top: 30px;
+            transition: 0.3s;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .brand {
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+        .sidebar .brand i { color: #f39c12; }
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #d1d8e0;
+            display: block;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background-color: rgba(255,255,255,0.1);
+            color: #fff;
+            border-left: 4px solid #f39c12;
+        }
+        .sidebar a i { margin-right: 15px; width: 20px; text-align: center; }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 30px;
+        }
+
+        /* Top Navbar */
+        .top-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            margin-bottom: 30px;
+        }
+        .search-bar input {
+            border: none;
+            background: #f1f2f6;
+            padding: 10px 20px;
+            border-radius: 20px;
+            width: 300px;
+            outline: none;
+        }
+        
+        /* Welcome Card */
+        .welcome-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(118, 75, 162, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .welcome-card h2 { font-weight: 700; }
+        .welcome-card p { opacity: 0.9; margin-bottom: 0; }
+
+        /* Stats Cards */
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            transition: transform 0.3s;
+            border-bottom: 4px solid #fff;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-card.blue { border-bottom-color: #3498db; }
+        .stat-card.orange { border-bottom-color: #f39c12; }
+        .stat-card.green { border-bottom-color: #2ecc71; }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            margin-right: 20px;
+        }
+        .bg-blue { background: rgba(52, 152, 219, 0.1); color: #3498db; }
+        .bg-orange { background: rgba(243, 156, 18, 0.1); color: #f39c12; }
+        .bg-green { background: rgba(46, 204, 113, 0.1); color: #2ecc71; }
+        
+        .stat-info h4 { margin: 0; font-size: 24px; font-weight: 700; color: #2c3e50; }
+        .stat-info span { color: #7f8c8d; font-size: 14px; }
+
+        /* Task & Schedule Lists */
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            height: 100%;
+        }
+        .content-card h5 {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .task-item:hover { background: #e9ecef; }
+        .task-item.completed span { text-decoration: line-through; color: #95a5a6; }
+        .task-item input { margin-right: 15px; transform: scale(1.2); cursor: pointer; }
+        
+        .schedule-item {
+            border-left: 3px solid #3498db;
+            padding-left: 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .schedule-item::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 0;
+            width: 11px;
+            height: 11px;
+            background: #3498db;
+            border-radius: 50%;
+        }
+        .schedule-item h6 { margin: 0 0 5px 0; color: #2c3e50; font-weight: 600; }
+        .schedule-item span { font-size: 13px; color: #7f8c8d; }
+        .schedule-item.urgent { border-left-color: #e74c3c; }
+        .schedule-item.urgent::before { background: #e74c3c; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="brand"><i class="fa-solid fa-graduation-cap"></i> CipherSchool</div>
+        <a href="#" class="active"><i class="fa-solid fa-house"></i> Dashboard</a>
+        <a href="#"><i class="fa-solid fa-book"></i> Assignments</a>
+        <a href="#"><i class="fa-solid fa-calendar-days"></i> Schedule</a>
+        <a href="#"><i class="fa-solid fa-folder-open"></i> Resources</a>
+        <a href="#"><i class="fa-solid fa-chart-line"></i> Analytics</a>
+        <a href="#" style="margin-top: 50px;"><i class="fa-solid fa-gear"></i> Settings</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        
+        <!-- Top Nav -->
+        <div class="top-navbar">
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass" style="position: absolute; margin: 12px; color: #7f8c8d;"></i>
+                <input type="text" placeholder="  Search courses, notes..." />
+            </div>
+            <div class="profile-area">
+                <i class="fa-regular fa-bell" style="font-size: 20px; margin-right: 20px; color: #2c3e50; cursor: pointer;"></i>
+                <img src="https://ui-avatars.com/api/?name=Student+Profile&background=0D8ABC&color=fff" alt="Profile" style="width: 40px; border-radius: 50%; vertical-align: middle;">
+            </div>
+        </div>
+
+        <!-- Welcome Banner -->
+        <div class="welcome-card">
+            <h2>Welcome back to Cipher School! 🚀</h2>
+            <p>You have 3 upcoming assignments and 2 classes scheduled for today. Keep up the great work!</p>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="stat-card blue">
+                    <div class="stat-icon bg-blue"><i class="fa-solid fa-laptop-code"></i></div>
+                    <div class="stat-info">
+                        <h4>4</h4>
+                        <span>Active Assignments</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card orange">
+                    <div class="stat-icon bg-orange"><i class="fa-solid fa-clock"></i></div>
+                    <div class="stat-info">
+                        <h4>12 hrs</h4>
+                        <span>Study Time This Week</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card green">
+                    <div class="stat-icon bg-green"><i class="fa-solid fa-check-double"></i></div>
+                    <div class="stat-info">
+                        <h4>85%</h4>
+                        <span>Completion Rate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+            <!-- Assignments List -->
+            <div class="col-md-7">
+                <div class="content-card">
+                    <h5><i class="fa-solid fa-list-check me-2"></i> Pending Assignments</h5>
+                    
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <input type="checkbox">
+                        <span>Data Structures & Algorithms - Graph Theory Implementation</span>
+                        <span class="badge bg-danger ms-auto">Due Tomorrow</span>
+                    </div>
+                    
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <input type="checkbox">
+                        <span>Database Management Systems (DBMS) - SQL Queries Lab</span>
+                        <span class="badge bg-warning text-dark ms-auto">Due in 2 Days</span>
+                    </div>
+                    
+                    <div class="task-item" onclick="toggleTask(this)">
+                        <input type="checkbox">
+                        <span>React JS Frontend Layout Design</span>
+                        <span class="badge bg-info ms-auto">Next Week</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schedule -->
+            <div class="col-md-5">
+                <div class="content-card">
+                    <h5><i class="fa-regular fa-calendar me-2"></i> Today's Schedule</h5>
+                    
+                    <div class="schedule-item">
+                        <h6>Machine Learning Basics</h6>
+                        <span><i class="fa-regular fa-clock me-1"></i> 10:00 AM - 11:30 AM | Room 402</span>
+                    </div>
+                    
+                    <div class="schedule-item urgent">
+                        <h6>Java Object-Oriented Programming Lab</h6>
+                        <span><i class="fa-regular fa-clock me-1"></i> 01:00 PM - 03:00 PM | Computer Lab 1</span>
+                    </div>
+                    
+                    <div class="schedule-item">
+                        <h6>Operating Systems Lecture</h6>
+                        <span><i class="fa-regular fa-clock me-1"></i> 03:30 PM - 04:30 PM | Main Hall</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS & Interactive Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simple function to cross out completed tasks
+        function toggleTask(element) {
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            if(event.target.tagName !== 'INPUT') {
+                checkbox.checked = !checkbox.checked;
+            }
+            if(checkbox.checked) {
+                element.classList.add('completed');
+            } else {
+                element.classList.remove('completed');
+            }
+        }
+    </script>
+</body>
+</html>
